@@ -18,39 +18,72 @@ public class Deck {
 	public Deck(String[] ranks, String[] suits, int[] values) {
 		// YOUR CODE HERE
 		// // Remember, in a constructor you need to first create the ArrayList for the instance variable!
+		cardsList = new ArrayList<>();
+		for (String suit : suits) {
+			for (int curRank = 0; curRank < ranks.length; curRank++) {
+				cardsList.add(new Card(ranks[curRank], suit, values[curRank]));
+			}
+		}
+		this.size = cardsList.size();
 	}
 	// Deals a card from this deck.
 	// return the card just dealt, or null if all the cards have been dealt already
 	// Recall that the cards are dealt from top (highest-index) down
 	// Updates the size as well
 	public Card deal() {
-		// YOUR CODE HERE
-        return null;
+		if(size == 1){
+			return null;
+		}
+		else{
+			Card toBeDealt = cardsList.get(size - 1);
+			size --;
+			return toBeDealt;
+		}
 	}
 
 	// Determines if this deck is empty (there are no undealt cards).
 	// returns true if this deck is empty, false otherwise.
 	public boolean isEmpty() {
-		// YOUR CODE HERE
-		return false;
+		return size <= -1;
 	}
 
 	// Returns the size (number of undealt cards) in this deck.
 	public int getSize() {
 		// YOUR CODE HERE
-		return -1;
+		return size;
+	}
+	private void resetSize(){
+		size = cardsList.size();
 	}
 
 	// Shuffles the deck by repeatedly randomly swapping pairs of cards
 	// This method should change the order of the cards in cardsList
 	// Shuffling should also reset the size variable to its original value
 	public void shuffle() {
-		// YOUR CODE HERE
+		resetSize();
+		for(int i = 0; i < size; i ++){
+			Card currentCard = cardsList.get(i);
+			int randomCard = i + (int) (Math.random() * (double) (size - i));
+			Card otherCard = cardsList.get(randomCard);
+			cardsList.set(i, otherCard);
+			cardsList.set(randomCard, currentCard);
+		}
+
 	}
 
 	// OPTIONAL: Write code that carries out a "perfect" shuffle
 	// that perfectly interweaves the two halves of the deck
 	public void perfectShuffle() {
+		int midDeck = cardsList.size() / 2;
+		// 0 6 1 7 2 8
+		ArrayList<Card> newList = new ArrayList<>();
+		for(int i = 0; i < midDeck; i ++){
+			newList.add(cardsList.get(i));
+			newList.add(cardsList.get(midDeck + i));
+
+
+		}
+		cardsList = newList;
 		// YOUR CODE HERE
 	}
 
